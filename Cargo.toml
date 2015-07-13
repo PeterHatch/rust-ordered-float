@@ -11,5 +11,13 @@ repository = "https://github.com/reem/rust-ordered-float"
 num = "0.1"
 unreachable = "0.0"
 
+[dependencies.serde]
+version = "0.4"
+optional = true
+
+[dependencies.rustc-serialize]
+version = "0.3"
+optional = true
+
 [dev-dependencies]
 stainless = "*"
