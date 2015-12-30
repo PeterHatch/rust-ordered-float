@@ -18,6 +18,3 @@ optional = true
 [dependencies.rustc-serialize]
 version = "0.3"
 optional = true
-
-[dev-dependencies]
-stainless = "*"
