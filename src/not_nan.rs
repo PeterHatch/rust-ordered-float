@@ -4,7 +4,6 @@ extern crate unreachable;
 use std::cmp::Ordering;
 use std::error::Error;
 use std::ops::Deref;
-use std::hash::{Hash, Hasher};
 use std::fmt;
 use std::io;
 use unreachable::unreachable;
@@ -53,13 +52,6 @@ impl<T: Float + PartialOrd> Ord for NotNaN<T> {
             Some(ord) => ord,
             None => unsafe { unreachable() },
         }
-    }
-}
-
-impl<T: Float> Hash for NotNaN<T> {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        let (man, exp, sign) = self.as_ref().integer_decode();
-        (man ^ exp as u64 ^ sign as u64).hash(state)
     }
 }
 

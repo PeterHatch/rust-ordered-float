@@ -1,10 +1,9 @@
 use std::cmp::Ordering;
 use std::ops::{Deref, DerefMut};
-use std::hash::{Hash, Hasher};
 use std::fmt;
 use num::Float;
 
-/// A wrapper around Floats providing an implementation of Ord and Hash.
+/// A wrapper around Floats providing an implementation of Ord.
 ///
 /// NaN is sorted as *greater* than all other values and *equal*
 /// to itself, in contradiction with the IEEE standard.
@@ -65,18 +64,6 @@ impl<T: Float + PartialEq> PartialEq for OrderedFloat<T> {
         } else {
             self.as_ref() == other.as_ref()
         }
-    }
-}
-
-impl<T: Float> Hash for OrderedFloat<T> {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        let (man, exp, sign) = if self.as_ref().is_nan() {
-            // normalize to one representation of NaN
-            T::nan().integer_decode()
-        } else {
-            self.as_ref().integer_decode()
-        };
-        (man ^ exp as u64 ^ sign as u64).hash(state)
     }
 }
 
