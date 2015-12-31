@@ -18,9 +18,10 @@ impl<T: Float> NotNaN<T> {
     ///
     /// Returns Err if val is NaN
     pub fn new(val: T) -> Result<Self, FloatIsNaN> {
-        match val {
-            ref val if val.is_nan() => Err(FloatIsNaN),
-            val => Ok(NotNaN(val)),
+        if val.is_nan() {
+            Err(FloatIsNaN)
+        } else {
+            Ok(NotNaN(val))
         }
     }
 
@@ -34,15 +35,13 @@ impl<T: Float> NotNaN<T> {
 
     /// Get the value out.
     pub fn into_inner(self) -> T {
-        let NotNaN(val) = self;
-        val
+        self.0
     }
 }
 
 impl<T: Float> AsRef<T> for NotNaN<T> {
     fn as_ref(&self) -> &T {
-        let NotNaN(ref val) = *self;
-        val
+        &self.0
     }
 }
 

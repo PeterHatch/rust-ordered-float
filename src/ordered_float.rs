@@ -13,22 +13,19 @@ pub struct OrderedFloat<T: Float>(pub T);
 impl<T: Float> OrderedFloat<T> {
     /// Get the value out.
     pub fn into_inner(self) -> T {
-        let OrderedFloat(val) = self;
-        val
+        self.0
     }
 }
 
 impl<T: Float> AsRef<T> for OrderedFloat<T> {
     fn as_ref(&self) -> &T {
-        let OrderedFloat(ref val) = *self;
-        val
+        &self.0
     }
 }
 
 impl<T: Float> AsMut<T> for OrderedFloat<T> {
     fn as_mut(&mut self) -> &mut T {
-        let OrderedFloat(ref mut val) = *self;
-        val
+        &mut self.0
     }
 }
 
@@ -53,14 +50,8 @@ impl<T: Float + Copy + PartialOrd> Ord for OrderedFloat<T> {
 
 impl<T: Float + PartialEq> PartialEq for OrderedFloat<T> {
     fn eq(&self, other: &OrderedFloat<T>) -> bool {
-        if self.as_ref().is_nan() {
-            if other.as_ref().is_nan() {
-                true
-            } else {
-                false
-            }
-        } else if other.as_ref().is_nan() {
-            false
+        if self.as_ref().is_nan() && other.as_ref().is_nan() {
+            true
         } else {
             self.as_ref() == other.as_ref()
         }
